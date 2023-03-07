@@ -1,0 +1,72 @@
+---
+title: "hw5sng"
+author: "Sebastian Grannes"
+date: "2023-03-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+head(choco)
+```
+
+1. What is the overall number of chocolate bars rated?
+
+There are 1852 # of chocolate bars rated.
+
+```
+nrow(choco)
+```
+
+2. How does the number of ratings depend on the year? Draw a bar chart of the number of reports.
+
+Based on the graph, the number of reports tends to increase in more recent years.
+
+```
+library(ggplot2)
+ggplot(choco, aes(x=Review.Date)) + geom_bar()
+```
+
+3.
+How are ratings distributed? Draw a histogram of ratings and describe it. Don’t forget to mention outliers, if there are any.
+
+The ratings are distributed with a slight left skew. There are of course some outliers sitting at both extremes at ratings of 1.0 and 5.0.
+```
+ggplot(choco, aes(x=Rating)) + geom_histogram()
+```
+
+4.
+Do ratings depend on the cocoa percentage of a chocolate bar?
+
+Based on the graph below, not necessarily. There doesn't appear to have much of a correlation between Cocoa.Pct and Rating.
+
+```
+ggplot(choco, aes(x=Cocoa.Pct, y=Rating)) + geom_point() + geom_jitter()
+
+```
+
+5.
+How do ratings compare across different company locations? Focus on the three locations with the most ratings:
+
+Looking at the data, the USA tends to have almost a bimodel distribution around 3.0 and 3.5 slightly skewed left. France and Canada both have similar situations, but not skewed as much. 
+```
+top3 <- dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada"))
+
+ggplot(top3, aes(x=Rating,fill = Company.Location)) + geom_histogram()
+```
+
+6.
+Does Review Date affect Rating?
+
+Although it is a bit hard to tell, it does seem that the Review Date and Rating might have a slight positive correlation.
+```
+ggplot(choco, aes(x=Review.Date, y=Rating)) + geom_point() + geom_jitter()
+```
+
+Final Thoughts - Using Github can slightly warp worktime making it a bit longer than individual usage, but I could imagine the practical uses are immense as it allows users to relay bits of code to each other at extreme speeds.
+
+https://github.com/sngKoopa/ds202hw5
